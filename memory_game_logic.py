@@ -43,6 +43,7 @@ class MemoryGame:
 
         # Проверяем, не закончилась ли игра по количеству раундов
         if self.current_round > self.max_rounds:
+
             self.game_over = True
 
         return True
