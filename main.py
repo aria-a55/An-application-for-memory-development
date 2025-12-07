@@ -1,9 +1,6 @@
 import tkinter as tk
 import memory_game
 import stroop_test
-import sys
-import os
-
 
 class MainWindow:
     def __init__(self, root):
@@ -11,17 +8,11 @@ class MainWindow:
         self.root.title("Тренажер - Меню игр")
         self.root.geometry("400x300")
 
-        # Центрирование окна
         self.center_window()
-
-        # Конфигурация отступов
         self.root.configure(padx=20, pady=20)
-
-        # Создание виджетов
         self.create_widgets()
 
     def center_window(self):
-        """Центрирует окно на экране"""
         self.root.update_idletasks()
         width = self.root.winfo_width()
         height = self.root.winfo_height()
@@ -30,7 +21,6 @@ class MainWindow:
         self.root.geometry(f'{width}x{height}+{x}+{y}')
 
     def create_widgets(self):
-        # Заголовок
         title_label = tk.Label(
             self.root,
             text="Выберите игру",
@@ -38,7 +28,6 @@ class MainWindow:
         )
         title_label.pack(pady=(0, 20))
 
-        # Кнопка для игры на запоминание
         memory_button = tk.Button(
             self.root,
             text="Игра на запоминание",
@@ -51,7 +40,6 @@ class MainWindow:
         )
         memory_button.pack(pady=10)
 
-        # Кнопка для теста Струпа
         stroop_button = tk.Button(
             self.root,
             text="Тест Струпа",
@@ -64,7 +52,6 @@ class MainWindow:
         )
         stroop_button.pack(pady=10)
 
-        # Кнопка возврата в стартовое окно
         back_button = tk.Button(
             self.root,
             text="Назад",
@@ -75,7 +62,6 @@ class MainWindow:
         )
         back_button.pack(pady=5)
 
-        # Кнопка выхода
         exit_button = tk.Button(
             self.root,
             text="Выход",
@@ -89,29 +75,18 @@ class MainWindow:
         exit_button.pack(pady=20)
 
     def start_memory_game_wrapper(self):
-        try:
-            memory_game.start_memory_game(self.root)
-        except Exception as e:
-            from tkinter import messagebox
-            messagebox.showerror("Ошибка", f"Не удалось запустить игру на запоминание: {e}")
+        memory_game.start_memory_game(self.root)
 
     def start_stroop_test_wrapper(self):
-        try:
-            stroop_test.start_stroop_test(self.root)
-        except Exception as e:
-            from tkinter import messagebox
-            messagebox.showerror("Ошибка", f"Не удалось запустить тест Струпа: {e}")
+        stroop_test.start_stroop_test(self.root)
 
     def return_to_start(self):
-        """Возврат в стартовое окно"""
         self.root.destroy()
-
 
 def main():
     root = tk.Tk()
     app = MainWindow(root)
     root.mainloop()
-
 
 if __name__ == "__main__":
     main()
