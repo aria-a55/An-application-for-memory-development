@@ -16,6 +16,12 @@ class MemoryGameUI:
 
         self.setup_ui()
 
+    def center_window(self, window, width, height):
+        window.update_idletasks()
+        x = (window.winfo_screenwidth() // 2) - (width // 2)
+        y = (window.winfo_screenheight() // 2) - (height // 2)
+        window.geometry(f'{width}x{height}+{x}+{y}')
+
     def setup_ui(self):
         if self.main_window:
             self.main_window.withdraw()
@@ -24,6 +30,9 @@ class MemoryGameUI:
         self.game_window.title("Игра на запоминание")
         self.game_window.geometry("700x600")
         self.game_window.configure(padx=20, pady=20)
+
+        # Центрируем окно
+        self.center_window(self.game_window, 700, 600)
 
         self.create_widgets()
 

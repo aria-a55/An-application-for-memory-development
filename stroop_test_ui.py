@@ -2,12 +2,19 @@ import tkinter as tk
 from tkinter import messagebox
 from stroop_test_logic import StroopTest
 
+
 class StroopTestUI:
     def __init__(self, main_window=None):
         self.main_window = main_window
 
         self.test = StroopTest(test_duration=30)
         self.setup_ui()
+
+    def center_window(self, window, width, height):
+        window.update_idletasks()
+        x = (window.winfo_screenwidth() // 2) - (width // 2)
+        y = (window.winfo_screenheight() // 2) - (height // 2)
+        window.geometry(f'{width}x{height}+{x}+{y}')
 
     def setup_ui(self):
         if self.main_window:
@@ -17,6 +24,9 @@ class StroopTestUI:
         self.window.title("Тест Струпа")
         self.window.geometry("600x500")
         self.window.configure(bg='lightgray')
+
+        # Центрирование окна
+        self.center_window(self.window, 600, 500)
 
         self.create_widgets()
 
@@ -147,6 +157,12 @@ class StroopTestUI:
         stats_window.title("Результаты теста Струпа")
         stats_window.geometry("450x350")
         stats_window.configure(bg='lightgray')
+
+        # Центрирование окна статистики
+        stats_window.update_idletasks()
+        x = (stats_window.winfo_screenwidth() // 2) - (450 // 2)
+        y = (stats_window.winfo_screenheight() // 2) - (350 // 2)
+        stats_window.geometry(f'450x350+{x}+{y}')
 
         if stats['total_trials'] > 0:
             stats_text = f"""
