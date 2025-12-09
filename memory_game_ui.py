@@ -22,12 +22,36 @@ class MemoryGameUI:
 
         self.game_window = tk.Toplevel()
         self.game_window.title("Игра на запоминание")
-        self.game_window.geometry("600x500")
+        self.game_window.geometry("700x600")
         self.game_window.configure(padx=20, pady=20)
 
         self.create_widgets()
 
     def create_widgets(self):
+        control_frame = tk.Frame(self.game_window)
+        control_frame.pack(fill=tk.X, pady=(0, 10))
+
+        self.menu_button = tk.Button(
+            control_frame,
+            text="В меню",
+            font=("Arial", 10),
+            height=1,
+            width=10,
+            command=self.return_to_menu
+        )
+        self.menu_button.pack(side=tk.LEFT, padx=5)
+
+        self.restart_button = tk.Button(
+            control_frame,
+            text="Заново",
+            font=("Arial", 10),
+            height=1,
+            width=10,
+            command=self.restart_game,
+            state=tk.DISABLED
+        )
+        self.restart_button.pack(side=tk.LEFT, padx=5)
+
         self.info_label = tk.Label(
             self.game_window,
             text="",
@@ -80,16 +104,6 @@ class MemoryGameUI:
             command=self.check_answer
         )
         self.check_button.pack(pady=10)
-
-        self.menu_button = tk.Button(
-            self.game_window,
-            text="В меню",
-            font=("Arial", 12),
-            height=1,
-            width=15,
-            command=self.return_to_menu
-        )
-        self.menu_button.pack(pady=10)
 
     def update_info_label(self):
         state = self.game.get_game_state()
@@ -149,6 +163,7 @@ class MemoryGameUI:
     def end_game(self):
         self.user_input.config(state="disabled")
         self.check_button.config(state="disabled")
+        self.restart_button.config(state=tk.NORMAL)
 
         state = self.game.get_game_state()
         self.word_label.config(
@@ -167,7 +182,22 @@ class MemoryGameUI:
             font=("Arial", 12)
         )
 
-        self.check_button.pack_forget()
+    def restart_game(self):
+        self.game.reset_game()
+        self.user_input.delete(0, tk.END)
+        self.user_input.config(state="disabled")
+        self.check_button.config(state="disabled")
+        self.restart_button.config(state=tk.DISABLED)
+
+        self.word_label.config(
+            text="Готовьтесь...",
+            bg="lightblue",
+            font=("Arial", 24, "bold")
+        )
+        self.instruction_label.config(text="Запомните слова, которые появятся на экране")
+
+        self.update_info_label()
+        self.game_window.after(1000, self.start_round)
 
     def return_to_menu(self):
         if self.main_window:

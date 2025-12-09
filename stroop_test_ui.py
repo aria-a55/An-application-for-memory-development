@@ -21,6 +21,19 @@ class StroopTestUI:
         self.create_widgets()
 
     def create_widgets(self):
+        control_frame = tk.Frame(self.window, bg='lightgray')
+        control_frame.pack(fill=tk.X, padx=10, pady=5)
+
+        self.menu_button = tk.Button(
+            control_frame,
+            text="В меню",
+            font=("Arial", 10),
+            width=10,
+            height=1,
+            command=self.return_to_menu
+        )
+        self.menu_button.pack(side=tk.LEFT, padx=5)
+
         self.instruction_label = tk.Label(
             self.window,
             text="Выберите ЦВЕТ текста (не значение слова!)",
@@ -60,16 +73,6 @@ class StroopTestUI:
         self.timer_label.pack(side=tk.LEFT, padx=20)
 
         self.create_color_buttons()
-
-        self.menu_button = tk.Button(
-            self.window,
-            text="В меню",
-            font=("Arial", 12),
-            width=15,
-            height=1,
-            command=self.return_to_menu
-        )
-        self.menu_button.pack(pady=20)
 
     def create_color_buttons(self):
         self.buttons = []
@@ -174,25 +177,28 @@ class StroopTestUI:
             stats_window.destroy()
             self.return_to_menu()
 
+        button_frame = tk.Frame(stats_window, bg='lightgray')
+        button_frame.pack(pady=10)
+
         return_btn = tk.Button(
-            stats_window,
+            button_frame,
             text="В меню",
             font=("Arial", 12),
             width=15,
             height=2,
             command=return_to_menu_from_stats
         )
-        return_btn.pack(pady=10)
+        return_btn.pack(side=tk.LEFT, padx=5)
 
         retry_btn = tk.Button(
-            stats_window,
+            button_frame,
             text="Пройти еще раз",
             font=("Arial", 12),
             width=15,
             height=2,
             command=lambda: self.retry_test(stats_window)
         )
-        retry_btn.pack(pady=5)
+        retry_btn.pack(side=tk.LEFT, padx=5)
 
     def retry_test(self, stats_window):
         stats_window.destroy()

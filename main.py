@@ -87,9 +87,11 @@ class MainWindow:
         exit_button.pack(pady=20)
 
     def start_memory_game_wrapper(self):
+        self.root.withdraw()
         memory_game.start_memory_game(self.root)
 
     def start_stroop_test_wrapper(self):
+        self.root.withdraw()
         stroop_test.start_stroop_test(self.root)
 
     def return_to_start(self):
@@ -109,7 +111,11 @@ class MainWindow:
         y = (instructions_window.winfo_screenheight() // 2) - (height // 2)
         instructions_window.geometry(f'{width}x{height}+{x}+{y}')
 
-        text_widget = tk.Text(instructions_window, wrap=tk.WORD, font=("Arial", 10))
+        # Создание фрейма для содержимого
+        content_frame = tk.Frame(instructions_window)
+        content_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+        text_widget = tk.Text(content_frame, wrap=tk.WORD, font=("Arial", 10), height=15)
         text_widget.pack(fill=tk.BOTH, expand=True)
 
         instructions = """
@@ -134,13 +140,18 @@ class MainWindow:
         text_widget.insert(tk.END, instructions)
         text_widget.configure(state=tk.DISABLED)
 
-        close_button = tk.Button(
-            instructions_window,
-            text="Закрыть",
+        # Кнопка "Ок" для закрытия окна инструкций
+        button_frame = tk.Frame(instructions_window)
+        button_frame.pack(pady=10)
+
+        ok_button = tk.Button(
+            button_frame,
+            text="Ок",
             font=("Arial", 10),
+            width=15,
             command=instructions_window.destroy
         )
-        close_button.pack(pady=10)
+        ok_button.pack()
 
 
 def main():
