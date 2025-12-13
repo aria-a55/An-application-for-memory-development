@@ -7,7 +7,7 @@ import os
 class StartWindow:
     def __init__(self, root):
         self.root = root
-        self.root.title("Тренажер")
+        self.root.title("Cortex")
         self.root.geometry("400x300")
         self.center_window()
         self.create_widgets()
@@ -23,7 +23,7 @@ class StartWindow:
     def create_widgets(self):
         title_label = tk.Label(
             self.root,
-            text="Добро пожаловать в Тренажер!",
+            text="Добро пожаловать в Cortex!",
             font=("Arial", 16, "bold")
         )
         title_label.pack(pady=30)

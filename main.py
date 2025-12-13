@@ -5,7 +5,7 @@ import stroop_test
 class MainWindow:
     def __init__(self, root):
         self.root = root
-        self.root.title("Тренажер - Меню игр")
+        self.root.title("Меню игр")
         self.root.geometry("400x350")
 
         self.center_window()
