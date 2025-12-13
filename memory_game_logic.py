@@ -16,8 +16,15 @@ class MemoryGame:
         self.game_over = False
         # Список уже использованных слов для текущей последовательности
         self.used_words = []
+        # отслеживания правильности предыдущего ответа
+        self.last_answer_correct = True
 
     def generate_sequence(self):
+        # Если предыдущий ответ был неправильным, показываем ту же последовательность
+        if not self.last_answer_correct:
+            self.last_answer_correct = True
+            return self.sequence.copy()
+
         # Для первого раунда - одно случайное слово
         if self.current_round == 1:
             word = random.choice(self.WORDS)
@@ -56,6 +63,7 @@ class MemoryGame:
         # Начисляем очки: 10 за каждое слово в последовательности
         self.score += len(self.sequence) * 10
         self.current_round += 1
+        self.last_answer_correct = True
 
         # Проверяем, не закончилась ли игра по количеству раундов
         if self.current_round > self.max_rounds:
@@ -65,6 +73,7 @@ class MemoryGame:
 
     def process_wrong_answer(self):
         self.errors += 1
+        self.last_answer_correct = False
 
         if self.errors >= self.max_errors:
             self.game_over = True

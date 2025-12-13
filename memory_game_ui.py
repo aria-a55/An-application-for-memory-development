@@ -50,17 +50,6 @@ class MemoryGameUI:
         )
         self.menu_button.pack(side=tk.LEFT, padx=5)
 
-        self.restart_button = tk.Button(
-            control_frame,
-            text="Заново",
-            font=("Arial", 10),
-            height=1,
-            width=10,
-            command=self.restart_game,
-            state=tk.DISABLED
-        )
-        self.restart_button.pack(side=tk.LEFT, padx=5)
-
         self.info_label = tk.Label(
             self.game_window,
             text="",
@@ -102,6 +91,8 @@ class MemoryGameUI:
         )
         self.user_input.pack(pady=5)
         self.user_input.config(state="disabled")
+        # клавиши Enter
+        self.user_input.bind('<Return>', lambda event: self.check_answer())
 
         self.check_button = tk.Button(
             self.game_window,
@@ -130,6 +121,7 @@ class MemoryGameUI:
             self.user_input.config(state="normal")
             self.check_button.config(state="normal")
             self.user_input.focus()
+            self.user_input.icursor(tk.END)  # Курсор в конец
 
     def start_round(self):
         self.user_input.delete(0, tk.END)
@@ -172,7 +164,6 @@ class MemoryGameUI:
     def end_game(self):
         self.user_input.config(state="disabled")
         self.check_button.config(state="disabled")
-        self.restart_button.config(state=tk.NORMAL)
 
         state = self.game.get_game_state()
         self.word_label.config(
@@ -190,23 +181,6 @@ class MemoryGameUI:
             text=f"{result_text}\nПравильных ответов: {state['current_round'] - 1}",
             font=("Arial", 12)
         )
-
-    def restart_game(self):
-        self.game.reset_game()
-        self.user_input.delete(0, tk.END)
-        self.user_input.config(state="disabled")
-        self.check_button.config(state="disabled")
-        self.restart_button.config(state=tk.DISABLED)
-
-        self.word_label.config(
-            text="Готовьтесь...",
-            bg="lightblue",
-            font=("Arial", 24, "bold")
-        )
-        self.instruction_label.config(text="Запомните слова, которые появятся на экране")
-
-        self.update_info_label()
-        self.game_window.after(1000, self.start_round)
 
     def return_to_menu(self):
         if self.main_window:
